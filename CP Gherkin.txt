@@ -1,0 +1,52 @@
+Feature: Inicio de sesion
+ 
+Scenario: Acceder al sistema validando los datos del usuario
+	Given Usuario esta en la pagina principal
+	When Usuario accede al Login del sistema
+	And  Usuario ingresa un nombre de usuario válido y registrado en el sistema.
+	And  Usuario ingresa una contraseña válida para el usuario ingresado.
+	And  Presionar el botón de envío de datos.
+	Then El sistema despliega mensaje de acceso satisfactorio
+
+Scenario: Cerrar sesión de usuario
+	When Usuario presiona cerrar sesión desde el sistema
+	Then El sistema despliega mensaje de cierre de sesión exitoso
+
+Scenario: Acceder al sistema sin ingresar los datos
+	Given Usuario esta en la pagina principal
+	When Usuario accede al Login del sistema
+	And Presionar el botón de envío de datos sin ingresar usuario y contraseña
+	Then El sistema despliega mensaje de error indicando que ocurrió un error, obligando al usuario a ingresar datos.
+
+Scenario: Acceder al sistema con caracteres inválidos
+	Given Usuario esta en la pagina principal
+	When Usuario accede al Login del sistema
+	And  Usuario ingresa un dato inválido (por ejemplo: " aD '_."\n#;?/%;* ") en el nombre de usuario y contraseña.
+	Then El sistema despliega mensaje de error de usuario incorrecto, solicitando el ingreso nuevamente del nombre de usuario y contraseña.
+
+Scenario: Inicio de sesion con largo mayor al definido 
+	Given Usuario esta en la pagina principal
+	When Usuario accede al Login del sistema
+	And  Usuario ingresa nombre de usuario con largo máximo.
+	And  Usuario ingresa contraseña con largo máximo.
+	Then El sistema corta el ingreso al llegar al largo máximo en los campos.
+	Then El sistema permite ingresar de nuevo los datos.
+
+Scenario: Inicio de sesiom con usuario deshabilitado
+	Given Usuario esta en la pagina principal
+	When Usuario accede al Login del sistema
+	And  Usuario ingresa un nombre de usuario deshabiltado.
+	And  Usuario ingresa una contraseña válida para el usuario ingresado.
+	Then El sistema despliega mensaje indicando el error, y cancela la operación.
+
+Scenario: No permitir el ingreso al sistema presionando "atras"
+	Given Usuario esta en la pagina principal
+	When Usuario accede al Login del sistema
+	And  Usuario ingresa un nombre de usuario válido y registrado en el sistema.
+	And  Usuario ingresa una contraseña válida para el usuario ingresado.
+	And  Presionar el botón de envío de datos.
+	And  Ingresar al menú principal del sistema y desconectarse.
+	And  Presionar el botón "Atrás" del navegador.
+	Then El sistema impide el acceso al menú principal, informando el término de la sesión.
+
+
